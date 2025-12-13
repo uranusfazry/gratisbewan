@@ -79,7 +79,9 @@
             align-items: center;
             justify-content: center;
             padding: var(--space-lg);
-            overflow: hidden;
+            /* UPDATE: Mengaktifkan scroll vertikal */
+            overflow-y: auto;
+            overflow-x: hidden;
             position: relative;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
@@ -112,6 +114,19 @@
                 background: var(--uranus-cyan);
                 border-radius: 50%;
                 animation: livePulse 2s ease-in-out infinite;
+            }
+        }
+
+        /* UPDATE: Penyesuaian Scroll untuk Mobile */
+        @media (max-width: 768px), (max-height: 800px) {
+            body {
+                align-items: flex-start; /* Mulai dari atas agar tidak terpotong */
+                padding-top: 40px;
+                padding-bottom: 40px;
+            }
+            
+            .card-wrapper {
+                margin: auto; /* Center otomatis tapi aman saat di-scroll */
             }
         }
 
@@ -824,62 +839,54 @@
 
         let toastTimeout;
 
-        // Copy with Enhanced Feedback
-        copyBtn.addEventListener('click', async () => {
+        // Copy Functionality using document.execCommand (More stable for iframes)
+        copyBtn.addEventListener('click', () => {
             const code = codeText.textContent;
             
-            try {
-                await navigator.clipboard.writeText(code);
-                
-                // Visual feedback
-                copyBtn.classList.add('copied');
-                codeBox.classList.add('copied');
-                showToast();
-                
-                // Haptic feedback (mobile)
-                if (navigator.vibrate) {
-                    navigator.vibrate(50);
-                }
-                
-                // Reset states
-                setTimeout(() => {
-                    copyBtn.classList.remove('copied');
-                    codeBox.classList.remove('copied');
-                }, 500);
-                
-            } catch (err) {
-                console.error('Gagal menyalin:', err);
-                // Fallback for older browsers
-                fallbackCopy(code);
-            }
-        });
-
-        // Fallback copy method
-        function fallbackCopy(text) {
+            // Create temporary textarea
             const textArea = document.createElement('textarea');
-            textArea.value = text;
+            textArea.value = code;
+            
+            // Ensure it's not visible in viewport but part of DOM
             textArea.style.position = 'fixed';
-            textArea.style.opacity = '0';
+            textArea.style.left = '-9999px';
+            textArea.style.top = '0';
             document.body.appendChild(textArea);
+            
+            // Select text
             textArea.focus();
             textArea.select();
             
             try {
-                document.execCommand('copy');
-                copyBtn.classList.add('copied');
-                codeBox.classList.add('copied');
-                showToast();
+                // Execute copy command
+                const successful = document.execCommand('copy');
                 
-                setTimeout(() => {
-                    copyBtn.classList.remove('copied');
-                    codeBox.classList.remove('copied');
-                }, 500);
+                if (successful) {
+                    // Visual feedback
+                    copyBtn.classList.add('copied');
+                    codeBox.classList.add('copied');
+                    showToast();
+                    
+                    // Haptic feedback (mobile)
+                    if (navigator.vibrate) {
+                        navigator.vibrate(50);
+                    }
+                    
+                    // Reset states
+                    setTimeout(() => {
+                        copyBtn.classList.remove('copied');
+                        codeBox.classList.remove('copied');
+                    }, 500);
+                } else {
+                    console.error('Copy command failed.');
+                }
             } catch (err) {
-                console.error('Fallback copy failed:', err);
+                console.error('Oops, unable to copy', err);
             }
             
+            // Cleanup
             document.body.removeChild(textArea);
-        }
+        });
 
         // Toast Display
         function showToast() {
