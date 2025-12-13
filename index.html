@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0A0A0F">
+    <title>Uranus Fazry — Akses Verifikasi</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-primary: #0A0A0F;
+            --bg-card: rgba(255, 255, 255, 0.04);
+            --bg-code: rgba(255, 255, 255, 0.06);
+            
+            --text-primary: #FFFFFF;
+            --text-secondary: #94A3B8;
+            --text-tertiary: #64748B;
+            
+            /* Uranus Fazry Brand Colors */
+            --uranus-purple: #7C3AED;
+            --uranus-violet: #A78BFA;
+            --uranus-cyan: #06B6D4;
+            --accent-gradient: linear-gradient(135deg, #7C3AED 0%, #A78BFA 100%);
+            
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-elevated: rgba(255, 255, 255, 0.1);
+            
+            --shadow-card: 
+                0 0 0 1px rgba(255, 255, 255, 0.04),
+                0 20px 40px -10px rgba(0, 0, 0, 0.5),
+                0 40px 80px -20px rgba(0, 0, 0, 0.3);
+            --shadow-button: 
+                0 8px 24px rgba(124, 58, 237, 0.2),
+                0 2px 8px rgba(0, 0, 0, 0.2);
+            
+            --space-xs: 8px;
+            --space-sm: 12px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            
+            --radius-card: 20px;
+            --radius-element: 12px;
+            --radius-button: 10px;
+            
+            --font-mono: 'SF Mono', 'Monaco', 'Cascadia Code', monospace;
+            
+            /* Responsive values */
+            --blur-amount: 40px;
+            --orb-size: 500px;
+            --card-padding: 32px;
+        }
+
+        /* Mobile optimization */
+        @media (max-width: 768px) {
+            :root {
+                --blur-amount: 20px;
+                --orb-size: 300px;
+                --card-padding: 24px;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-lg);
+            overflow: hidden;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Desktop: Cinematic context */
+        @media (min-width: 769px) {
+            body::before {
+                content: 'LIVE STREAMING';
+                position: fixed;
+                top: 24px;
+                right: 24px;
+                font-size: 11px;
+                font-weight: 700;
+                letter-spacing: 0.15em;
+                color: var(--uranus-cyan);
+                opacity: 0.4;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            
+            body::after {
+                content: '';
+                position: fixed;
+                top: 28px;
+                right: 154px;
+                width: 8px;
+                height: 8px;
+                background: var(--uranus-cyan);
+                border-radius: 50%;
+                animation: livePulse 2s ease-in-out infinite;
+            }
+        }
+
+        /* Ambient Background */
+        .bg-ambient {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .ambient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            width: var(--orb-size);
+            height: var(--orb-size);
+        }
+
+        .orb-1 {
+            background: radial-gradient(circle, #7C3AED 0%, transparent 70%);
+            top: -20%;
+            left: 10%;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            background: radial-gradient(circle, #06B6D4 0%, transparent 70%);
+            bottom: -15%;
+            right: 5%;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+
+        /* Mobile: Disable orb animation */
+        @media (max-width: 768px) {
+            .ambient-orb {
+                animation: none;
+            }
+        }
+
+        /* Brand Watermark */
+        .brand-watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 140px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            color: rgba(255, 255, 255, 0.02);
+            pointer-events: none;
+            user-select: none;
+            z-index: 0;
+        }
+
+        @media (max-width: 768px) {
+            .brand-watermark {
+                font-size: 80px;
+                opacity: 0.5;
+            }
+        }
+
+        /* Card Container */
+        .card-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 420px;
+            animation: cardEntrance 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+
+        @media (min-width: 769px) {
+            .card-wrapper {
+                max-width: 480px;
+            }
+        }
+
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(var(--blur-amount)) saturate(150%);
+            -webkit-backdrop-filter: blur(var(--blur-amount)) saturate(150%);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-card);
+            padding: var(--card-padding);
+            box-shadow: var(--shadow-card);
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+        }
+
+        /* Signature Diagonal Accent - Desktop only */
+        @media (min-width: 769px) {
+            .card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 0;
+                height: 80px;
+                background: linear-gradient(135deg, var(--uranus-cyan), var(--uranus-violet));
+                clip-path: polygon(100% 0, 100% 100%, 0 0);
+                opacity: 0.6;
+                animation: diagonalDraw 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+            }
+        }
+
+        /* Top Glow Line */
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(167, 139, 250, 0.4) 50%, 
+                transparent
+            );
+        }
+
+        /* Header */
+        .card-header {
+            text-align: center;
+            margin-bottom: var(--space-lg);
+        }
+
+        .card-title {
+            font-size: 1.375rem;
+            font-weight: 700;
+            letter-spacing: -0.015em;
+            line-height: 1.2;
+            margin-bottom: var(--space-sm);
+            background: linear-gradient(180deg, 
+                #FFFFFF 0%, 
+                var(--uranus-violet) 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @media (min-width: 769px) {
+            .card-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        .card-description {
+            font-size: 0.875rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+            max-width: 340px;
+            margin: 0 auto;
+        }
+
+        .card-description strong {
+            color: var(--uranus-violet);
+            font-weight: 600;
+        }
+
+        /* Code Container */
+        .code-container {
+            position: relative;
+            margin-bottom: var(--space-lg);
+            animation: codeFadeIn 0.6s ease-out 0.8s backwards;
+        }
+
+        .code-label {
+            text-align: center;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            color: var(--uranus-cyan);
+            text-transform: uppercase;
+            margin-bottom: var(--space-xs);
+            opacity: 0.8;
+        }
+
+        .code-box {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            background: var(--bg-code);
+            border: 1.5px solid var(--border-elevated);
+            border-radius: var(--radius-element);
+            padding: var(--space-md);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Pulse Glow - Desktop only */
+        @media (min-width: 769px) {
+            .code-box::before {
+                content: '';
+                position: absolute;
+                inset: -2px;
+                background: var(--accent-gradient);
+                opacity: 0;
+                border-radius: var(--radius-element);
+                z-index: -1;
+                animation: pulseGlow 3s ease-in-out infinite;
+            }
+        }
+
+        .code-box:hover {
+            border-color: var(--uranus-violet);
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .code-box.copied {
+            border-color: var(--uranus-cyan);
+            animation: successPulse 0.5s ease-out;
+        }
+
+        .code-text {
+            flex: 1;
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--text-primary);
+            user-select: all;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 400px) {
+            .code-text {
+                font-size: 0.9rem;
+            }
+        }
+
+        .code-badge {
+            text-align: center;
+            font-size: 10px;
+            color: var(--text-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            opacity: 0.7;
+            margin-top: var(--space-xs);
+        }
+
+        .copy-button {
+            background: rgba(255, 255, 255, 0.06);
+            border: none;
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .copy-button {
+                width: 44px;
+                height: 44px;
+                min-width: 44px;
+            }
+        }
+
+        .copy-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            transform: scale(1.05);
+        }
+
+        .copy-button:active {
+            transform: scale(0.95);
+        }
+
+        .copy-button.copied {
+            background: rgba(6, 182, 212, 0.2);
+            color: var(--uranus-cyan);
+        }
+
+        /* --- NEW: Guide Section Styles --- */
+        .guide-box {
+            margin-bottom: var(--space-lg);
+            padding: 0 4px;
+            animation: codeFadeIn 0.6s ease-out 0.9s backwards; /* Staggered animation */
+        }
+
+        .guide-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: var(--space-sm);
+        }
+
+        .guide-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .guide-list {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed var(--border-subtle);
+            border-radius: var(--radius-element);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .guide-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            color: var(--text-secondary);
+        }
+
+        .guide-icon {
+            flex-shrink: 0;
+            width: 16px;
+            text-align: center;
+            font-size: 14px;
+            /* Monospaced simplified look for the icons */
+            font-feature-settings: "tnum"; 
+            font-variant-numeric: tabular-nums;
+        }
+
+        .guide-highlight {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .guide-note {
+            margin-top: 10px;
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            text-align: center;
+            background: rgba(124, 58, 237, 0.05);
+            border-radius: 6px;
+            padding: 6px 12px;
+            border: 1px solid rgba(124, 58, 237, 0.1);
+        }
+
+        .guide-note strong {
+            color: var(--uranus-violet);
+        }
+
+        /* Action Buttons */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .btn-primary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 16px 24px;
+            min-height: 48px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: var(--radius-button);
+            color: white;
+            font-weight: 600;
+            font-size: 0.9375rem;
+            letter-spacing: 0.01em;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-button);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Gradient shift - Desktop only */
+        @media (min-width: 769px) {
+            .btn-primary::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(90deg, 
+                    transparent 0%,
+                    rgba(6, 182, 212, 0.3) 50%,
+                    transparent 100%
+                );
+                transform: translateX(-100%);
+                transition: transform 0.6s ease;
+            }
+
+            .btn-primary:hover::before {
+                transform: translateX(100%);
+            }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 
+                    0 12px 32px rgba(124, 58, 237, 0.3),
+                    0 4px 12px rgba(0, 0, 0, 0.3);
+            }
+
+            .btn-primary:hover .btn-arrow {
+                transform: translateX(4px);
+            }
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-arrow {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: none;
+            color: var(--text-tertiary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: var(--space-sm);
+            min-height: 44px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-secondary:hover {
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            background: rgba(18, 18, 24, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--uranus-cyan);
+            border-radius: 100px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            box-shadow: 
+                0 10px 30px rgba(6, 182, 212, 0.3),
+                0 0 0 1px rgba(6, 182, 212, 0.2);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        @media (min-width: 769px) {
+            .toast.show {
+                animation: toastShake 0.5s ease-out;
+            }
+        }
+
+        .toast-icon {
+            width: 18px;
+            height: 18px;
+            color: var(--uranus-cyan);
+        }
+
+        /* Animations */
+        @keyframes cardEntrance {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes diagonalDraw {
+            to {
+                width: 80px;
+            }
+        }
+
+        @keyframes codeFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.15;
+            }
+        }
+
+        @keyframes successPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.7);
+            }
+            100% {
+                box-shadow: 0 0 0 20px rgba(6, 182, 212, 0);
+            }
+        }
+
+        @keyframes toastShake {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            25% {
+                transform: translateX(-50%) translateY(-2px);
+            }
+            75% {
+                transform: translateX(-50%) translateY(2px);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translate(0, 0) scale(1); 
+            }
+            50% { 
+                transform: translate(30px, -30px) scale(1.05); 
+            }
+        }
+
+        @keyframes livePulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
+        }
+
+        .card-wrapper.closing {
+            animation: cardExit 0.4s cubic-bezier(0.4, 0, 1, 1) forwards;
+        }
+
+        @keyframes cardExit {
+            to {
+                opacity: 0;
+                transform: translateY(-10px) scale(0.96);
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Brand Watermark -->
+    <div class="brand-watermark">URANUS</div>
+
+    <!-- Ambient Background -->
+    <div class="bg-ambient">
+        <div class="ambient-orb orb-1"></div>
+        <div class="ambient-orb orb-2"></div>
+    </div>
+
+    <!-- Main Card -->
+    <div class="card-wrapper" id="cardWrapper">
+        <div class="card">
+            
+            <!-- Header -->
+            <div class="card-header">
+                <h1 class="card-title">Akses Diberikan</h1>
+                <p class="card-description">
+                    Kode verifikasi untuk tantangan 1v1 di live streaming <strong>Uranus Fazry</strong>
+                </p>
+            </div>
+
+            <!-- Code Box -->
+            <div class="code-container">
+                <div class="code-label">Kode Akses Anda</div>
+                <div class="code-box" id="codeBox">
+                    <div class="code-text" id="codeText">KENZIKALAH-123</div>
+                    <button class="copy-button" id="copyBtn" aria-label="Salin kode">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="code-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                    Berlaku untuk sesi ini
+                </div>
+            </div>
+
+            <!-- Guide Section (NEW) -->
+            <div class="guide-box">
+                <div class="guide-header">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-tertiary);">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    <div class="guide-title">Cara Main</div>
+                </div>
+                
+                <div class="guide-list">
+                    <div class="guide-item">
+                        <div class="guide-icon">1.</div>
+                        <div>Salin kode akses di atas</div>
+                    </div>
+                    <div class="guide-item">
+                        <div class="guide-icon">2.</div>
+                        <div>Masuk ke Live TikTok Uranus Fazry</div>
+                    </div>
+                    <div class="guide-item">
+                        <div class="guide-icon">3.</div>
+                        <div>Paste kode tersebut di komen</div>
+                    </div>
+                    <div class="guide-item">
+                        <div class="guide-icon">⚡</div>
+                        <div class="guide-highlight">Siapa cepat, dia dapat!</div>
+                    </div>
+                </div>
+
+                <div class="guide-note">
+                    ⚠️ <strong>Fair Play:</strong> 1 kode hanya untuk 1 orang tercepat.
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="button-group">
+                <a href="https://www.tiktok.com/@uranusfazry?is_from_webapp=1&sender_device=pc" target="_blank" class="btn-primary">
+                    <span>Lanjut ke Live Streaming</span>
+                    <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+                <button class="btn-secondary" id="closeBtn">
+                    Keluar
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>Tersalin! Siap bertanding 🎮</span>
+    </div>
+
+    <script>
+        const copyBtn = document.getElementById('copyBtn');
+        const codeBox = document.getElementById('codeBox');
+        const codeText = document.getElementById('codeText');
+        const toast = document.getElementById('toast');
+        const closeBtn = document.getElementById('closeBtn');
+        const cardWrapper = document.getElementById('cardWrapper');
+
+        let toastTimeout;
+
+        // Copy with Enhanced Feedback
+        copyBtn.addEventListener('click', async () => {
+            const code = codeText.textContent;
+            
+            try {
+                await navigator.clipboard.writeText(code);
+                
+                // Visual feedback
+                copyBtn.classList.add('copied');
+                codeBox.classList.add('copied');
+                showToast();
+                
+                // Haptic feedback (mobile)
+                if (navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+                
+                // Reset states
+                setTimeout(() => {
+                    copyBtn.classList.remove('copied');
+                    codeBox.classList.remove('copied');
+                }, 500);
+                
+            } catch (err) {
+                console.error('Gagal menyalin:', err);
+                // Fallback for older browsers
+                fallbackCopy(code);
+            }
+        });
+
+        // Fallback copy method
+        function fallbackCopy(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                copyBtn.classList.add('copied');
+                codeBox.classList.add('copied');
+                showToast();
+                
+                setTimeout(() => {
+                    copyBtn.classList.remove('copied');
+                    codeBox.classList.remove('copied');
+                }, 500);
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        // Toast Display
+        function showToast() {
+            toast.classList.add('show');
+            
+            if (toastTimeout) clearTimeout(toastTimeout);
+            
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Close/Refresh Action
+        closeBtn.addEventListener('click', () => {
+            location.reload();
+        });
+
+        // Keyboard Shortcut (Ctrl/Cmd + C on code)
+        codeText.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
+                e.preventDefault();
+                copyBtn.click();
+            }
+        });
+
+        // Prevent zoom on double-tap for mobile
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (e) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+
+</body>
+</html>
