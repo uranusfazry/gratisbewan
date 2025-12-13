@@ -162,57 +162,6 @@
             }
         }
 
-        /* --- INTERSTITIAL ADS STYLE --- */
-        .interstitial-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 10000;
-            display: none; /* Hidden by default, toggled via JS */
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-
-        .interstitial-content {
-            position: relative;
-            background: #fff; /* White bg for standard ad contrast */
-            padding: 4px;
-            border-radius: 4px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            max-width: 90%;
-        }
-
-        .interstitial-close-btn {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .interstitial-close-btn:hover {
-            background: var(--uranus-cyan);
-            border-color: var(--uranus-cyan);
-            color: #000;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
         /* --- END STYLES KHUSUS IKLAN --- */
 
         /* Desktop: Cinematic context */
@@ -1051,36 +1000,10 @@
     </script>
 </head>
 <body>
-
-    <!-- INTERSTITIAL AD OVERLAY (Full Screen) -->
-    <div id="interstitial-overlay" class="interstitial-overlay">
-        <div class="interstitial-content">
-            <button id="close-interstitial" class="interstitial-close-btn">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-                Tutup Iklan
-            </button>
-            <!-- AD SPACE: 300x250 Used as Interstitial Content -->
-            <div class="ad-unit" style="margin:0;">
-                <script type="text/javascript">
-                    window.atOptions = {
-                        'key' : '74a7e7fed5db66825b61ef97fa2c861c',
-                        'format' : 'iframe',
-                        'height' : 250,
-                        'width' : 300,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="https://lightingshovestature.com/74a7e7fed5db66825b61ef97fa2c861c/invoke.js"></script>
-            </div>
-        </div>
-    </div>
     
     <!-- Theme Toggle Button -->
     <button id="themeToggle" class="theme-toggle" aria-label="Ganti Tema">
-        <!-- Sun Icon -->
+        <!-- Sun Icon (Default hidden in CSS logic via JS swap or inline SVG change) -->
         <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
             <circle cx="12" cy="12" r="5"></circle>
             <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -1294,33 +1217,6 @@
     </div>
 
     <script>
-        // --- LOGIC INTERSTITIAL ADS ---
-        // Fungsi untuk mengelola iklan fullscreen sekali per sesi
-        document.addEventListener('DOMContentLoaded', function() {
-            const interstitial = document.getElementById('interstitial-overlay');
-            const closeBtn = document.getElementById('close-interstitial');
-            
-            // Cek apakah user sudah melihat iklan di sesi ini
-            const adSeen = sessionStorage.getItem('adSeen_uranus_supreme');
-
-            if (!adSeen) {
-                // Jika belum lihat, tampilkan iklan setelah delay singkat (2 detik)
-                // Delay membuat website terasa lebih natural sebelum "popup" muncul
-                setTimeout(() => {
-                    interstitial.style.display = 'flex';
-                }, 2000);
-            }
-
-            // Fungsi menutup iklan
-            closeBtn.addEventListener('click', function() {
-                // Animasi keluar (opsional, bisa ditambahkan CSS fadeOut)
-                interstitial.style.display = 'none';
-                
-                // Simpan status di sessionStorage agar tidak muncul lagi sampai browser ditutup
-                sessionStorage.setItem('adSeen_uranus_supreme', 'true');
-            });
-        });
-
         // Main Functionality
         const copyBtn = document.getElementById('copyBtn');
         const codeBox = document.getElementById('codeBox');
