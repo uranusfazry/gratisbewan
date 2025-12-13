@@ -112,9 +112,9 @@
             color: var(--text-primary);
             min-height: 100vh;
             display: flex;
-            flex-direction: column; /* Changed to column to handle top ads */
+            flex-direction: column; /* Changed for ads flow */
             align-items: center;
-            /* justify-content: center; Removed strictly centered to allow scrolling with ads */
+            justify-content: flex-start; /* Changed for ads flow */
             padding: var(--space-lg);
             overflow-y: auto;
             overflow-x: hidden;
@@ -123,46 +123,6 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-
-        /* --- STYLES KHUSUS IKLAN --- */
-        .ad-unit {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 10px auto;
-            max-width: 100%;
-            overflow: hidden;
-            z-index: 5;
-            position: relative;
-        }
-        
-        .ad-sidebar {
-            display: none; /* Hidden on mobile */
-            flex-direction: column;
-            gap: 20px;
-            z-index: 10;
-        }
-
-        .main-layout {
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            justify-content: center;
-            gap: 20px;
-            width: 100%;
-            max-width: 1200px;
-            margin-top: 20px;
-            position: relative;
-            z-index: 2;
-        }
-
-        @media (min-width: 1024px) {
-            .ad-sidebar {
-                display: flex;
-            }
-        }
-
-        /* --- END STYLES KHUSUS IKLAN --- */
 
         /* Desktop: Cinematic context */
         @media (min-width: 769px) {
@@ -179,6 +139,7 @@
                 display: flex;
                 align-items: center;
                 gap: 8px;
+                z-index: 10;
             }
             
             body::after {
@@ -191,17 +152,19 @@
                 background: var(--uranus-cyan);
                 border-radius: 50%;
                 animation: livePulse 2s ease-in-out infinite;
+                z-index: 10;
             }
         }
 
         @media (max-width: 768px), (max-height: 800px) {
             body {
+                align-items: center;
                 padding-top: 40px;
                 padding-bottom: 40px;
             }
             
             .card-wrapper {
-                margin: auto;
+                margin: 20px auto;
             }
         }
 
@@ -285,11 +248,13 @@
             animation: cardEntrance 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             opacity: 0;
             transform: translateY(20px) scale(0.95);
+            margin-bottom: 30px; /* Space for ads */
         }
 
         @media (min-width: 769px) {
             .card-wrapper {
                 max-width: 480px;
+                margin-top: 5vh;
             }
         }
 
@@ -988,16 +953,148 @@
             text-align: center;
             white-space: nowrap;
         }
+
+        /* -----------------------------------------------------------------
+           ADVERTISEMENT STYLES
+           ----------------------------------------------------------------- */
+        .ad-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+            z-index: 5;
+            position: relative;
+            width: 100%;
+        }
+
+        .ad-banner-top {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .ad-grid-support {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 900px;
+            margin-top: 20px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .ad-item {
+            background: rgba(255,255,255,0.02);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .sponsored-label {
+            width: 100%;
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--text-tertiary);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Desktop Sidebar Ads */
+        .ad-sidebar {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            display: none;
+        }
+        .ad-sidebar-left { left: 10px; }
+        .ad-sidebar-right { right: 10px; }
+
+        @media (min-width: 1400px) {
+            .ad-sidebar { display: flex; flex-direction: column; gap: 10px; }
+        }
+
+        /* INTERSTITIAL (Full Screen Ad) Styles */
+        .interstitial-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .interstitial-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-elevated);
+            padding: 30px;
+            border-radius: 20px;
+            position: relative;
+            transform: scale(0.8) translateY(20px);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-width: 95%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        body.light-mode .interstitial-content {
+            background: #fff;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .interstitial-close {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 40px;
+            height: 40px;
+            background: var(--uranus-cyan);
+            color: #fff;
+            border-radius: 50%;
+            border: 3px solid var(--bg-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        .interstitial-close:hover {
+            transform: scale(1.1) rotate(90deg);
+            background: var(--uranus-violet);
+        }
+
+        /* Active State */
+        .interstitial-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .interstitial-overlay.active .interstitial-content {
+            transform: scale(1) translateY(0);
+        }
     </style>
-    <!-- GLOBAL ERROR HANDLER FOR AD SCRIPTS -->
-    <script>
-        window.onerror = function(msg, url, line, col, error) {
-            // Suppress generic "Script error." which often comes from blocked external ads/CORS
-            if (msg === 'Script error.' && !url) {
-                return true; 
-            }
-        };
-    </script>
 </head>
 <body>
     
@@ -1027,27 +1124,29 @@
         <div class="ambient-orb orb-2"></div>
     </div>
 
-    <!-- AD SPACE: 728x90 Top -->
-    <div class="ad-unit">
-        <script type="text/javascript">
-            window.atOptions = {
-                'key' : 'a2d6432d124c27301f9cf96d96c87594',
-                'format' : 'iframe',
-                'height' : 90,
-                'width' : 728,
-                'params' : {}
-            };
-        </script>
-        <script type="text/javascript" src="https://lightingshovestature.com/a2d6432d124c27301f9cf96d96c87594/invoke.js"></script>
+    <!-- AD: Top Banner (728x90) -->
+    <div class="ad-banner-top">
+        <div class="ad-item">
+            <!-- 728x90_1 -->
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : 'a2d6432d124c27301f9cf96d96c87594',
+                    'format' : 'iframe',
+                    'height' : 90,
+                    'width' : 728,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="https://lightingshovestature.com/a2d6432d124c27301f9cf96d96c87594/invoke.js"></script>
+        </div>
     </div>
 
-    <!-- MAIN LAYOUT (Sidebar Ads + Center Content) -->
-    <div class="main-layout">
-        
-        <!-- AD SPACE: Left Sidebar 160x600 -->
-        <div class="ad-sidebar">
+    <!-- Sidebar Ads (Visible on Large Screens) -->
+    <div class="ad-sidebar ad-sidebar-left">
+        <div class="ad-item">
+            <!-- 160x600_1 -->
             <script type="text/javascript">
-                window.atOptions = {
+                atOptions = {
                     'key' : '845eec5afa40d55a4e86f636a04ccf07',
                     'format' : 'iframe',
                     'height' : 600,
@@ -1057,145 +1156,13 @@
             </script>
             <script type="text/javascript" src="https://lightingshovestature.com/845eec5afa40d55a4e86f636a04ccf07/invoke.js"></script>
         </div>
+    </div>
 
-        <!-- Main Card Container -->
-        <div class="card-wrapper" id="cardWrapper">
-            <div class="card">
-                
-                <!-- Header -->
-                <div class="card-header">
-                    <h1 class="card-title">Akses Diberikan</h1>
-                    <p class="card-description">
-                        Kode verifikasi untuk tantangan 1v1 di live streaming <strong>Uranus Fazry</strong>
-                    </p>
-                </div>
-
-                <!-- Code Box -->
-                <div class="code-container">
-                    <div class="code-label">Kode Akses Anda</div>
-                    <div class="code-box" id="codeBox">
-                        <div class="code-text" id="codeText">KENZIKALAH-123</div>
-                        <button class="copy-button" id="copyBtn" aria-label="Salin kode">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="code-badge">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                        </svg>
-                        Berlaku untuk sesi ini
-                    </div>
-                </div>
-
-                <!-- AD SPACE: 300x250 (Inside Card) -->
-                <div class="ad-unit">
-                    <script type="text/javascript">
-                        window.atOptions = {
-                            'key' : '74a7e7fed5db66825b61ef97fa2c861c',
-                            'format' : 'iframe',
-                            'height' : 250,
-                            'width' : 300,
-                            'params' : {}
-                        };
-                    </script>
-                    <script type="text/javascript" src="https://lightingshovestature.com/74a7e7fed5db66825b61ef97fa2c861c/invoke.js"></script>
-                </div>
-
-                <!-- Guide Section -->
-                <div class="guide-box">
-                    <div class="guide-header">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-tertiary);">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="16" x2="12" y2="12"></line>
-                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                        </svg>
-                        <div class="guide-title">Cara Main</div>
-                    </div>
-                    
-                    <div class="guide-list">
-                        <div class="guide-item">
-                            <div class="guide-icon">1.</div>
-                            <div>Salin kode akses di atas</div>
-                        </div>
-                        <div class="guide-item">
-                            <div class="guide-icon">2.</div>
-                            <div>Masuk ke Live TikTok Uranus Fazry</div>
-                        </div>
-                        <div class="guide-item">
-                            <div class="guide-icon">3.</div>
-                            <div>Paste kode tersebut di komen</div>
-                        </div>
-                        <div class="guide-item">
-                            <div class="guide-icon">⚡</div>
-                            <div class="guide-highlight">Siapa cepat, dia dapat!</div>
-                        </div>
-                    </div>
-
-                    <div class="guide-note">
-                        ⚠️ <strong>Fair Play:</strong> 1 kode hanya untuk 1 orang tercepat.
-                    </div>
-                </div>
-
-                <!-- AD SPACE: NativeBanner (Inside Card) -->
-                <div class="ad-unit">
-                    <script async="async" data-cfasync="false" src="https://lightingshovestature.com/da32aea59e010ffc7ad09e36738fb077/invoke.js"></script>
-                    <div id="container-da32aea59e010ffc7ad09e36738fb077"></div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="button-group">
-                    <a href="https://www.tiktok.com/@uranusfazry?is_from_webapp=1&sender_device=pc" target="_blank" class="btn-primary">
-                        <span>Lanjut ke Live Streaming</span>
-                        <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                    </a>
-                    <button class="btn-secondary" id="closeBtn">
-                        Keluar
-                    </button>
-                </div>
-
-            </div>
-
-            <!-- AD SPACE: 468x60 (Below Card) -->
-            <div class="ad-unit">
-                <script type="text/javascript">
-                    window.atOptions = {
-                        'key' : '0ab4c316f69d951b71c986a63de02590',
-                        'format' : 'iframe',
-                        'height' : 60,
-                        'width' : 468,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="https://lightingshovestature.com/0ab4c316f69d951b71c986a63de02590/invoke.js"></script>
-            </div>
-
-            <!-- AD SPACE: 320x50 (Bottom) -->
-            <div class="ad-unit">
-                <script type="text/javascript">
-                    window.atOptions = {
-                        'key' : 'a015af9cdec1da588d595f0a55a54bb0',
-                        'format' : 'iframe',
-                        'height' : 50,
-                        'width' : 320,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="https://lightingshovestature.com/a015af9cdec1da588d595f0a55a54bb0/invoke.js"></script>
-            </div>
-
-        </div>
-
-        <!-- AD SPACE: Right Sidebar 160x300 -->
-        <div class="ad-sidebar">
+    <div class="ad-sidebar ad-sidebar-right">
+        <div class="ad-item">
+            <!-- 160x300_1 -->
             <script type="text/javascript">
-                window.atOptions = {
+                atOptions = {
                     'key' : '3b841a07d1ac96f089e54f7766420bd2',
                     'format' : 'iframe',
                     'height' : 300,
@@ -1205,8 +1172,167 @@
             </script>
             <script type="text/javascript" src="https://lightingshovestature.com/3b841a07d1ac96f089e54f7766420bd2/invoke.js"></script>
         </div>
-
     </div>
+
+    <!-- Main Card -->
+    <div class="card-wrapper" id="cardWrapper">
+        <div class="card">
+            
+            <!-- Header -->
+            <div class="card-header">
+                <h1 class="card-title">Akses Diberikan</h1>
+                <p class="card-description">
+                    Kode verifikasi untuk tantangan 1v1 di live streaming <strong>Uranus Fazry</strong>
+                </p>
+            </div>
+
+            <!-- Code Box -->
+            <div class="code-container">
+                <div class="code-label">Kode Akses Anda</div>
+                <div class="code-box" id="codeBox">
+                    <div class="code-text" id="codeText">KENZIKALAH-123</div>
+                    <button class="copy-button" id="copyBtn" aria-label="Salin kode">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="code-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                    Berlaku untuk sesi ini
+                </div>
+            </div>
+
+            <!-- AD: Inside Content (300x250) -->
+            <div class="ad-container">
+                <div class="ad-item">
+                    <!-- 300x250_1 -->
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : '74a7e7fed5db66825b61ef97fa2c861c',
+                            'format' : 'iframe',
+                            'height' : 250,
+                            'width' : 300,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="https://lightingshovestature.com/74a7e7fed5db66825b61ef97fa2c861c/invoke.js"></script>
+                </div>
+            </div>
+
+            <!-- Guide Section -->
+            <div class="guide-box">
+                <div class="guide-header">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-tertiary);">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    <div class="guide-title">Cara Main</div>
+                </div>
+                
+                <div class="guide-list">
+                    <div class="guide-item">
+                        <div class="guide-icon">1.</div>
+                        <div>Salin kode akses di atas</div>
+                    </div>
+                    <div class="guide-item">
+                        <div class="guide-icon">2.</div>
+                        <div>Masuk ke Live TikTok Uranus Fazry</div>
+                    </div>
+                    <div class="guide-item">
+                        <div class="guide-icon">3.</div>
+                        <div>Paste kode tersebut di komen</div>
+                    </div>
+                    <div class="guide-item">
+                        <div class="guide-icon">⚡</div>
+                        <div class="guide-highlight">Siapa cepat, dia dapat!</div>
+                    </div>
+                </div>
+
+                <div class="guide-note">
+                    ⚠️ <strong>Fair Play:</strong> 1 kode hanya untuk 1 orang tercepat.
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="button-group">
+                <a href="https://www.tiktok.com/@uranusfazry?is_from_webapp=1&sender_device=pc" target="_blank" class="btn-primary">
+                    <span>Lanjut ke Live Streaming</span>
+                    <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+                <button class="btn-secondary" id="closeBtn">
+                    Keluar
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- AD: Support Grid (Remaining Banners) -->
+    <div class="ad-grid-support">
+        
+        <!-- 468x60_1 -->
+        <div class="ad-item">
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : '0ab4c316f69d951b71c986a63de02590',
+                    'format' : 'iframe',
+                    'height' : 60,
+                    'width' : 468,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="https://lightingshovestature.com/0ab4c316f69d951b71c986a63de02590/invoke.js"></script>
+        </div>
+
+        <!-- 320x50_1 -->
+        <div class="ad-item">
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : 'a015af9cdec1da588d595f0a55a54bb0',
+                    'format' : 'iframe',
+                    'height' : 50,
+                    'width' : 320,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="https://lightingshovestature.com/a015af9cdec1da588d595f0a55a54bb0/invoke.js"></script>
+        </div>
+    </div>
+
+    <!-- NEW: Interstitial Ad Overlay -->
+    <div class="interstitial-overlay" id="interstitialAds">
+        <div class="interstitial-content">
+            <button class="interstitial-close" id="closeInterstitial" aria-label="Tutup Iklan">✕</button>
+            <!-- Interstitial Content: Menggunakan 300x250 sebagai placeholder demo mobile/desktop -->
+            <div class="ad-item">
+               <script type="text/javascript">
+                    atOptions = {
+                        'key' : '74a7e7fed5db66825b61ef97fa2c861c',
+                        'format' : 'iframe',
+                        'height' : 250,
+                        'width' : 300,
+                        'params' : {}
+                    };
+                </script>
+                <script type="text/javascript" src="https://lightingshovestature.com/74a7e7fed5db66825b61ef97fa2c861c/invoke.js"></script>
+            </div>
+            <div class="guide-note" style="margin-top: 15px; background: transparent; border: none;">
+                Support Uranus Supreme by viewing ads
+            </div>
+        </div>
+    </div>
+
+    <!-- NativeBanner Container (Required for NativeBanner Script) -->
+    <div id="container-da32aea59e010ffc7ad09e36738fb077"></div>
 
     <!-- Toast -->
     <div class="toast" id="toast">
@@ -1318,6 +1444,33 @@
             }
             lastTouchEnd = now;
         }, false);
+
+        // --- INTERSTITIAL AD LOGIC ---
+        window.addEventListener('load', () => {
+            // Cek apakah user sudah pernah melihat iklan di sesi ini
+            const hasSeenAd = sessionStorage.getItem('seen_interstitial');
+            
+            if (!hasSeenAd) {
+                // Munculkan iklan setelah 1 detik agar loading konten utama smooth dulu
+                setTimeout(() => {
+                    const interstitial = document.getElementById('interstitialAds');
+                    if(interstitial) {
+                        interstitial.classList.add('active');
+                    }
+                }, 1000);
+            }
+        });
+
+        const closeInterstitialBtn = document.getElementById('closeInterstitial');
+        if (closeInterstitialBtn) {
+            closeInterstitialBtn.addEventListener('click', () => {
+                const interstitial = document.getElementById('interstitialAds');
+                interstitial.classList.remove('active');
+                
+                // Set session storage agar iklan tidak muncul lagi sampai browser ditutup/tab baru
+                sessionStorage.setItem('seen_interstitial', 'true');
+            });
+        }
     </script>
     
     <!-- Script Watermark (Updated logic to follow body theme) -->
@@ -1455,9 +1608,14 @@
             }
         })();
     </script>
+
+    <!-- NativeBanner_1 (Placed near bottom body) -->
+    <script async="async" data-cfasync="false" src="https://lightingshovestature.com/da32aea59e010ffc7ad09e36738fb077/invoke.js"></script>
     
-    <!-- ADS SCRIPTS: Popunder & Social Bar (Placed at end for performance) -->
+    <!-- Popunder_1 -->
     <script type="text/javascript" src="https://lightingshovestature.com/05/ca/5f/05ca5ff4c11a0506cea9d58addc5c47f.js"></script>
+    
+    <!-- SocialBar_1 -->
     <script type="text/javascript" src="https://lightingshovestature.com/3e/f2/c7/3ef2c7e7b257e039c2e929948a088ea5.js"></script>
 
 </body>
