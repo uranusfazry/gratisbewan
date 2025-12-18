@@ -1,21 +1,40 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0A0A0F">
     <title>Uranusfazry — Akses Verifikasi</title>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font untuk Watermark -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch("/assets/code.txt")
+                .then(response => {
+                    if (!response.ok) throw new Error("Failed to load code");
+                    return response.text();
+                })
+                .then(text => {
+                    document.getElementById("codeText").textContent = text.trim();
+                })
+                .catch(error => {
+                    console.error(error);
+                    document.getElementById("codeText").textContent = "ERROR";
+                });
+        });
+    </script>
 
     <!-- ADS SCRIPTS: Popunder & Social Bar (Moved to Head for better trigger reliability) -->
     <!-- Menambahkan data-cfasync="false" untuk mencegah konflik caching/async loading -->
-    <script type="text/javascript" data-cfasync="false" src="https://lightingshovestature.com/05/ca/5f/05ca5ff4c11a0506cea9d58addc5c47f.js"></script>
-    <script type="text/javascript" data-cfasync="false" src="https://lightingshovestature.com/3e/f2/c7/3ef2c7e7b257e039c2e929948a088ea5.js"></script>
+    <script type="text/javascript" data-cfasync="false"
+        src="https://lightingshovestature.com/05/ca/5f/05ca5ff4c11a0506cea9d58addc5c47f.js"></script>
+    <script type="text/javascript" data-cfasync="false"
+        src="https://lightingshovestature.com/3e/f2/c7/3ef2c7e7b257e039c2e929948a088ea5.js"></script>
 
     <style>
         :root {
@@ -23,46 +42,46 @@
             --bg-primary: #0A0A0F;
             --bg-card: rgba(255, 255, 255, 0.04);
             --bg-code: rgba(255, 255, 255, 0.06);
-            
+
             --text-primary: #FFFFFF;
             --text-secondary: #94A3B8;
             --text-tertiary: #64748B;
-            
+
             /* Brand Colors */
             --uranus-purple: #7C3AED;
             --uranus-violet: #A78BFA;
             --uranus-cyan: #06B6D4;
             --accent-gradient: linear-gradient(135deg, #7C3AED 0%, #A78BFA 100%);
-            
+
             --border-subtle: rgba(255, 255, 255, 0.06);
             --border-elevated: rgba(255, 255, 255, 0.1);
-            
-            --shadow-card: 
+
+            --shadow-card:
                 0 0 0 1px rgba(255, 255, 255, 0.04),
                 0 20px 40px -10px rgba(0, 0, 0, 0.5),
                 0 40px 80px -20px rgba(0, 0, 0, 0.3);
-            --shadow-button: 
+            --shadow-button:
                 0 8px 24px rgba(124, 58, 237, 0.2),
                 0 2px 8px rgba(0, 0, 0, 0.2);
-            
+
             /* Watermark Variables (Dark) */
-            --fw-glow-color: #06B6D4; 
+            --fw-glow-color: #06B6D4;
             --fw-background-color: rgba(10, 10, 15, 0.85);
             --fw-border-color: rgba(6, 182, 212, 0.3);
             --fw-text-color: rgba(255, 255, 255, 0.95);
             --fw-particle-hue: 187;
             --fw-particle-lightness: 60;
-            
+
             --space-xs: 8px;
             --space-sm: 12px;
             --space-md: 16px;
             --space-lg: 24px;
             --space-xl: 32px;
-            
+
             --radius-card: 20px;
             --radius-element: 12px;
             --radius-button: 10px;
-            
+
             --font-mono: 'SF Mono', 'Monaco', 'Cascadia Code', monospace;
             --blur-amount: 40px;
             --orb-size: 500px;
@@ -71,24 +90,29 @@
 
         /* --- Light Mode Overrides --- */
         body.light-mode {
-            --bg-primary: #F1F5F9; /* Slate 100 */
+            --bg-primary: #F1F5F9;
+            /* Slate 100 */
             --bg-card: rgba(255, 255, 255, 0.75);
             --bg-code: rgba(0, 0, 0, 0.05);
-            
-            --text-primary: #0F172A; /* Slate 900 */
-            --text-secondary: #475569; /* Slate 600 */
-            --text-tertiary: #64748B; /* Slate 500 */
-            
+
+            --text-primary: #0F172A;
+            /* Slate 900 */
+            --text-secondary: #475569;
+            /* Slate 600 */
+            --text-tertiary: #64748B;
+            /* Slate 500 */
+
             --border-subtle: rgba(0, 0, 0, 0.08);
             --border-elevated: rgba(0, 0, 0, 0.12);
-            
-            --shadow-card: 
+
+            --shadow-card:
                 0 0 0 1px rgba(0, 0, 0, 0.05),
                 0 20px 40px -10px rgba(0, 0, 0, 0.1),
                 0 40px 80px -20px rgba(0, 0, 0, 0.05);
-            
+
             /* Watermark Variables (Light) - Auto adapt */
-            --fw-glow-color: #7C3AED; /* Purple for contrast */
+            --fw-glow-color: #7C3AED;
+            /* Purple for contrast */
             --fw-background-color: rgba(255, 255, 255, 0.85);
             --fw-border-color: rgba(124, 58, 237, 0.3);
             --fw-text-color: #0F172A;
@@ -117,7 +141,8 @@
             color: var(--text-primary);
             min-height: 100vh;
             display: flex;
-            flex-direction: column; /* Changed to column to handle top ads */
+            flex-direction: column;
+            /* Changed to column to handle top ads */
             align-items: center;
             /* justify-content: center; Removed strictly centered to allow scrolling with ads */
             padding: var(--space-lg);
@@ -140,9 +165,10 @@
             z-index: 5;
             position: relative;
         }
-        
+
         .ad-sidebar {
-            display: none; /* Hidden on mobile */
+            display: none;
+            /* Hidden on mobile */
             flex-direction: column;
             gap: 20px;
             z-index: 10;
@@ -174,7 +200,8 @@
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(8px);
             z-index: 10000;
-            display: none; /* Hidden by default, toggled via JS */
+            display: none;
+            /* Hidden by default, toggled via JS */
             align-items: center;
             justify-content: center;
             animation: fadeIn 0.4s ease-out forwards;
@@ -182,10 +209,11 @@
 
         .interstitial-content {
             position: relative;
-            background: #fff; /* White bg for standard ad contrast */
+            background: #fff;
+            /* White bg for standard ad contrast */
             padding: 4px;
             border-radius: 4px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
             max-width: 90%;
         }
 
@@ -214,8 +242,13 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         /* --- END STYLES KHUSUS IKLAN --- */
@@ -236,7 +269,7 @@
                 align-items: center;
                 gap: 8px;
             }
-            
+
             body::after {
                 content: '';
                 position: fixed;
@@ -250,12 +283,13 @@
             }
         }
 
-        @media (max-width: 768px), (max-height: 800px) {
+        @media (max-width: 768px),
+        (max-height: 800px) {
             body {
                 padding-top: 40px;
                 padding-bottom: 40px;
             }
-            
+
             .card-wrapper {
                 margin: auto;
             }
@@ -279,7 +313,7 @@
             z-index: 1000;
             backdrop-filter: blur(10px);
             transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .theme-toggle:hover {
@@ -306,7 +340,7 @@
             height: var(--orb-size);
             transition: opacity 0.5s ease;
         }
-        
+
         /* Reduce orb intensity in light mode */
         body.light-mode .ambient-orb {
             opacity: 0.08;
@@ -385,11 +419,10 @@
             left: 10%;
             right: 10%;
             height: 1px;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(167, 139, 250, 0.4) 50%, 
-                transparent
-            );
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(167, 139, 250, 0.4) 50%,
+                    transparent);
         }
 
         .card-header {
@@ -403,23 +436,22 @@
             letter-spacing: -0.015em;
             line-height: 1.2;
             margin-bottom: var(--space-sm);
-            background: linear-gradient(180deg, 
-                #FFFFFF 0%, 
-                var(--uranus-violet) 100%
-            );
+            background: linear-gradient(180deg,
+                    #FFFFFF 0%,
+                    var(--uranus-violet) 100%);
             /* Adjust gradient for light mode text */
             --title-gradient-light: linear-gradient(180deg, #7C3AED 0%, #4C1D95 100%);
-            
+
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
         body.light-mode .card-title {
-             background: var(--title-gradient-light);
-             -webkit-background-clip: text;
-             -webkit-text-fill-color: transparent;
-             background-clip: text;
+            background: var(--title-gradient-light);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         @media (min-width: 769px) {
@@ -457,7 +489,7 @@
             margin-bottom: var(--space-xs);
             opacity: 0.8;
         }
-        
+
         body.light-mode .code-label {
             color: var(--uranus-purple);
         }
@@ -493,7 +525,7 @@
             background: rgba(255, 255, 255, 0.08);
             transform: translateY(-2px);
         }
-        
+
         body.light-mode .code-box:hover {
             background: rgba(0, 0, 0, 0.03);
         }
@@ -550,7 +582,7 @@
             position: relative;
             z-index: 1;
         }
-        
+
         body.light-mode .copy-button {
             background: rgba(0, 0, 0, 0.06);
         }
@@ -568,7 +600,7 @@
             color: var(--text-primary);
             transform: scale(1.05);
         }
-        
+
         body.light-mode .copy-button:hover {
             background: rgba(0, 0, 0, 0.1);
         }
@@ -581,7 +613,7 @@
             background: rgba(6, 182, 212, 0.2);
             color: var(--uranus-cyan);
         }
-        
+
         body.light-mode .copy-button.copied {
             background: rgba(124, 58, 237, 0.15);
             color: var(--uranus-purple);
@@ -619,7 +651,7 @@
             flex-direction: column;
             gap: 10px;
         }
-        
+
         body.light-mode .guide-list {
             background: rgba(255, 255, 255, 0.5);
             border-style: solid;
@@ -639,7 +671,7 @@
             width: 16px;
             text-align: center;
             font-size: 14px;
-            font-feature-settings: "tnum"; 
+            font-feature-settings: "tnum";
             font-variant-numeric: tabular-nums;
         }
 
@@ -662,7 +694,7 @@
         .guide-note strong {
             color: var(--uranus-violet);
         }
-        
+
         body.light-mode .guide-note strong {
             color: var(--uranus-purple);
         }
@@ -704,11 +736,10 @@
                 content: '';
                 position: absolute;
                 inset: 0;
-                background: linear-gradient(90deg, 
-                    transparent 0%,
-                    rgba(6, 182, 212, 0.3) 50%,
-                    transparent 100%
-                );
+                background: linear-gradient(90deg,
+                        transparent 0%,
+                        rgba(6, 182, 212, 0.3) 50%,
+                        transparent 100%);
                 transform: translateX(-100%);
                 transition: transform 0.6s ease;
             }
@@ -719,7 +750,7 @@
 
             .btn-primary:hover {
                 transform: translateY(-2px);
-                box-shadow: 
+                box-shadow:
                     0 12px 32px rgba(124, 58, 237, 0.3),
                     0 4px 12px rgba(0, 0, 0, 0.3);
             }
@@ -758,7 +789,7 @@
             color: var(--text-secondary);
             background: rgba(255, 255, 255, 0.04);
         }
-        
+
         body.light-mode .btn-secondary:hover {
             background: rgba(0, 0, 0, 0.05);
         }
@@ -780,7 +811,7 @@
             font-size: 0.875rem;
             font-weight: 600;
             color: var(--text-primary);
-            box-shadow: 
+            box-shadow:
                 0 10px 30px rgba(6, 182, 212, 0.3),
                 0 0 0 1px rgba(6, 182, 212, 0.2);
             opacity: 0;
@@ -788,12 +819,12 @@
             z-index: 100;
             pointer-events: none;
         }
-        
+
         body.light-mode .toast {
             background: rgba(255, 255, 255, 0.95);
             color: var(--text-primary);
             border-color: var(--uranus-purple);
-            box-shadow: 
+            box-shadow:
                 0 10px 30px rgba(124, 58, 237, 0.2),
                 0 0 0 1px rgba(124, 58, 237, 0.1);
         }
@@ -814,7 +845,7 @@
             height: 18px;
             color: var(--uranus-cyan);
         }
-        
+
         body.light-mode .toast-icon {
             color: var(--uranus-purple);
         }
@@ -838,6 +869,7 @@
                 opacity: 0;
                 transform: translateY(10px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -845,9 +877,12 @@
         }
 
         @keyframes pulseGlow {
-            0%, 100% {
+
+            0%,
+            100% {
                 opacity: 0;
             }
+
             50% {
                 opacity: 0.15;
             }
@@ -857,37 +892,48 @@
             0% {
                 box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.7);
             }
+
             100% {
                 box-shadow: 0 0 0 20px rgba(6, 182, 212, 0);
             }
         }
 
         @keyframes toastShake {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translateX(-50%) translateY(0);
             }
+
             25% {
                 transform: translateX(-50%) translateY(-2px);
             }
+
             75% {
                 transform: translateX(-50%) translateY(2px);
             }
         }
 
         @keyframes float {
-            0%, 100% { 
-                transform: translate(0, 0) scale(1); 
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
             }
-            50% { 
-                transform: translate(30px, -30px) scale(1.05); 
+
+            50% {
+                transform: translate(30px, -30px) scale(1.05);
             }
         }
 
         @keyframes livePulse {
-            0%, 100% {
+
+            0%,
+            100% {
                 opacity: 1;
                 transform: scale(1);
             }
+
             50% {
                 opacity: 0.5;
                 transform: scale(0.8);
@@ -906,7 +952,10 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
+
+            *,
+            *::before,
+            *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
@@ -917,16 +966,34 @@
            GAYA WATERMARK (Adaptive)
            ----------------------------------------------------------------- */
         @keyframes slideUpFadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes logo3DFlip {
-            0% { transform: rotateY(0deg); filter: brightness(1); }
-            50% { transform: rotateY(180deg); filter: brightness(2) drop-shadow(0 0 8px var(--fw-glow-color)); }
-            100% { transform: rotateY(360deg); filter: brightness(1); }
+            0% {
+                transform: rotateY(0deg);
+                filter: brightness(1);
+            }
+
+            50% {
+                transform: rotateY(180deg);
+                filter: brightness(2) drop-shadow(0 0 8px var(--fw-glow-color));
+            }
+
+            100% {
+                transform: rotateY(360deg);
+                filter: brightness(1);
+            }
         }
-        
+
         #futuristic-watermark {
             position: fixed;
             bottom: 25px;
@@ -941,9 +1008,9 @@
             -webkit-backdrop-filter: blur(18px);
             border: 1px solid var(--fw-border-color);
             border-radius: 10px;
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.15), 
-                        0 0 30px rgba(6, 182, 212, 0.1),
-                        inset 0 0 10px rgba(6, 182, 212, 0.1);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.15),
+                0 0 30px rgba(6, 182, 212, 0.1),
+                inset 0 0 10px rgba(6, 182, 212, 0.1);
             z-index: 9999;
             cursor: pointer;
             user-select: none;
@@ -952,29 +1019,29 @@
             animation: slideUpFadeIn 1s ease-out 0.5s forwards;
             transition: all 0.3s ease;
         }
-        
+
         /* Light Mode Watermark overrides */
         body.light-mode #futuristic-watermark {
-             box-shadow: 0 0 15px rgba(124, 58, 237, 0.15), 
-                        0 0 30px rgba(124, 58, 237, 0.1),
-                        inset 0 0 10px rgba(124, 58, 237, 0.05);
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.15),
+                0 0 30px rgba(124, 58, 237, 0.1),
+                inset 0 0 10px rgba(124, 58, 237, 0.05);
         }
-        
+
         #futuristic-watermark:hover {
             transform: translateY(-5px) scale(1.03);
             border-color: rgba(6, 182, 212, 0.8);
-            box-shadow: 0 0 25px rgba(6, 182, 212, 0.4), 
-                        0 0 50px rgba(6, 182, 212, 0.25),
-                        inset 0 0 12px rgba(6, 182, 212, 0.2);
+            box-shadow: 0 0 25px rgba(6, 182, 212, 0.4),
+                0 0 50px rgba(6, 182, 212, 0.25),
+                inset 0 0 12px rgba(6, 182, 212, 0.2);
         }
-        
+
         body.light-mode #futuristic-watermark:hover {
-             border-color: rgba(124, 58, 237, 0.8);
-             box-shadow: 0 0 25px rgba(124, 58, 237, 0.3), 
-                        0 0 50px rgba(124, 58, 237, 0.15),
-                        inset 0 0 12px rgba(124, 58, 237, 0.1);
+            border-color: rgba(124, 58, 237, 0.8);
+            box-shadow: 0 0 25px rgba(124, 58, 237, 0.3),
+                0 0 50px rgba(124, 58, 237, 0.15),
+                inset 0 0 12px rgba(124, 58, 237, 0.1);
         }
-        
+
         #particle-canvas {
             position: absolute;
             top: 0;
@@ -1018,7 +1085,7 @@
         .f-logo-container.reacting {
             animation: logo3DFlip 0.7s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        
+
         .f-logo-container svg {
             width: 100%;
             height: 100%;
@@ -1026,8 +1093,9 @@
             stroke-width: 8;
             transition: stroke 0.5s ease;
         }
-        
-        #f-watermark-text, #f-follow-message {
+
+        #f-watermark-text,
+        #f-follow-message {
             transition: color 0.5s ease;
         }
 
@@ -1036,7 +1104,7 @@
             letter-spacing: 1px;
             text-transform: uppercase;
         }
-        
+
         #f-follow-message {
             font-size: 11px;
             letter-spacing: 0.2px;
@@ -1047,21 +1115,23 @@
     </style>
     <!-- GLOBAL ERROR HANDLER FOR AD SCRIPTS -->
     <script>
-        window.onerror = function(msg, url, line, col, error) {
+        window.onerror = function (msg, url, line, col, error) {
             // Suppress generic "Script error." which often comes from blocked external ads/CORS
             if (msg === 'Script error.' && !url) {
-                return true; 
+                return true;
             }
         };
     </script>
 </head>
+
 <body>
 
     <!-- INTERSTITIAL AD OVERLAY (Full Screen) -->
     <div id="interstitial-overlay" class="interstitial-overlay">
         <div class="interstitial-content">
             <button id="close-interstitial" class="interstitial-close-btn">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
@@ -1071,22 +1141,24 @@
             <div class="ad-unit" style="margin:0;">
                 <script type="text/javascript">
                     window.atOptions = {
-                        'key' : '74a7e7fed5db66825b61ef97fa2c861c',
-                        'format' : 'iframe',
-                        'height' : 250,
-                        'width' : 300,
-                        'params' : {}
+                        'key': '74a7e7fed5db66825b61ef97fa2c861c',
+                        'format': 'iframe',
+                        'height': 250,
+                        'width': 300,
+                        'params': {}
                     };
                 </script>
-                <script type="text/javascript" src="https://lightingshovestature.com/74a7e7fed5db66825b61ef97fa2c861c/invoke.js"></script>
+                <script type="text/javascript"
+                    src="https://lightingshovestature.com/74a7e7fed5db66825b61ef97fa2c861c/invoke.js"></script>
             </div>
         </div>
     </div>
-    
+
     <!-- Theme Toggle Button -->
     <button id="themeToggle" class="theme-toggle" aria-label="Ganti Tema">
         <!-- Sun Icon -->
-        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
             <circle cx="12" cy="12" r="5"></circle>
             <line x1="12" y1="1" x2="12" y2="3"></line>
             <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -1098,7 +1170,8 @@
             <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
         </svg>
         <!-- Moon Icon -->
-        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
     </button>
@@ -1113,37 +1186,39 @@
     <div class="ad-unit">
         <script type="text/javascript">
             window.atOptions = {
-                'key' : 'a2d6432d124c27301f9cf96d96c87594',
-                'format' : 'iframe',
-                'height' : 90,
-                'width' : 728,
-                'params' : {}
+                'key': 'a2d6432d124c27301f9cf96d96c87594',
+                'format': 'iframe',
+                'height': 90,
+                'width': 728,
+                'params': {}
             };
         </script>
-        <script type="text/javascript" src="https://lightingshovestature.com/a2d6432d124c27301f9cf96d96c87594/invoke.js"></script>
+        <script type="text/javascript"
+            src="https://lightingshovestature.com/a2d6432d124c27301f9cf96d96c87594/invoke.js"></script>
     </div>
 
     <!-- MAIN LAYOUT (Sidebar Ads + Center Content) -->
     <div class="main-layout">
-        
+
         <!-- AD SPACE: Left Sidebar 160x600 -->
         <div class="ad-sidebar">
             <script type="text/javascript">
                 window.atOptions = {
-                    'key' : '845eec5afa40d55a4e86f636a04ccf07',
-                    'format' : 'iframe',
-                    'height' : 600,
-                    'width' : 160,
-                    'params' : {}
+                    'key': '845eec5afa40d55a4e86f636a04ccf07',
+                    'format': 'iframe',
+                    'height': 600,
+                    'width': 160,
+                    'params': {}
                 };
             </script>
-            <script type="text/javascript" src="https://lightingshovestature.com/845eec5afa40d55a4e86f636a04ccf07/invoke.js"></script>
+            <script type="text/javascript"
+                src="https://lightingshovestature.com/845eec5afa40d55a4e86f636a04ccf07/invoke.js"></script>
         </div>
 
         <!-- Main Card Container -->
         <div class="card-wrapper" id="cardWrapper">
             <div class="card">
-                
+
                 <!-- Header -->
                 <div class="card-header">
                     <h1 class="card-title">Akses Diberikan</h1>
@@ -1156,16 +1231,19 @@
                 <div class="code-container">
                     <div class="code-label">Kode Akses Anda</div>
                     <div class="code-box" id="codeBox">
-                        <div class="code-text" id="codeText">gg123</div>
+                        <div class="code-text" id="codeText">Loading...</div>
                         <button class="copy-button" id="copyBtn" aria-label="Salin kode">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                             </svg>
                         </button>
                     </div>
+
                     <div class="code-badge">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                         </svg>
@@ -1177,27 +1255,29 @@
                 <div class="ad-unit">
                     <script type="text/javascript">
                         window.atOptions = {
-                            'key' : '74a7e7fed5db66825b61ef97fa2c861c',
-                            'format' : 'iframe',
-                            'height' : 250,
-                            'width' : 300,
-                            'params' : {}
+                            'key': '74a7e7fed5db66825b61ef97fa2c861c',
+                            'format': 'iframe',
+                            'height': 250,
+                            'width': 300,
+                            'params': {}
                         };
                     </script>
-                    <script type="text/javascript" src="https://lightingshovestature.com/74a7e7fed5db66825b61ef97fa2c861c/invoke.js"></script>
+                    <script type="text/javascript"
+                        src="https://lightingshovestature.com/74a7e7fed5db66825b61ef97fa2c861c/invoke.js"></script>
                 </div>
 
                 <!-- Guide Section -->
                 <div class="guide-box">
                     <div class="guide-header">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-tertiary);">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" style="color: var(--text-tertiary);">
                             <circle cx="12" cy="12" r="10"></circle>
                             <line x1="12" y1="16" x2="12" y2="12"></line>
                             <line x1="12" y1="8" x2="12.01" y2="8"></line>
                         </svg>
                         <div class="guide-title">Cara Main</div>
                     </div>
-                    
+
                     <div class="guide-list">
                         <div class="guide-item">
                             <div class="guide-icon">1.</div>
@@ -1224,9 +1304,11 @@
 
                 <!-- Action Buttons -->
                 <div class="button-group">
-                    <a href="https://www.tiktok.com/@uranusfazry?is_from_webapp=1&sender_device=pc" target="_blank" class="btn-primary">
+                    <a href="https://www.tiktok.com/@uranusfazry?is_from_webapp=1&sender_device=pc" target="_blank"
+                        class="btn-primary">
                         <span>Lanjut ke Live Streaming</span>
-                        <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                             <polyline points="12 5 19 12 12 19"></polyline>
                         </svg>
@@ -1238,7 +1320,8 @@
 
                 <!-- AD SPACE: NativeBanner (Moved Below Buttons) -->
                 <div class="ad-unit">
-                    <script async="async" data-cfasync="false" src="https://lightingshovestature.com/da32aea59e010ffc7ad09e36738fb077/invoke.js"></script>
+                    <script async="async" data-cfasync="false"
+                        src="https://lightingshovestature.com/da32aea59e010ffc7ad09e36738fb077/invoke.js"></script>
                     <div id="container-da32aea59e010ffc7ad09e36738fb077"></div>
                 </div>
 
@@ -1248,28 +1331,30 @@
             <div class="ad-unit">
                 <script type="text/javascript">
                     window.atOptions = {
-                        'key' : '0ab4c316f69d951b71c986a63de02590',
-                        'format' : 'iframe',
-                        'height' : 60,
-                        'width' : 468,
-                        'params' : {}
+                        'key': '0ab4c316f69d951b71c986a63de02590',
+                        'format': 'iframe',
+                        'height': 60,
+                        'width': 468,
+                        'params': {}
                     };
                 </script>
-                <script type="text/javascript" src="https://lightingshovestature.com/0ab4c316f69d951b71c986a63de02590/invoke.js"></script>
+                <script type="text/javascript"
+                    src="https://lightingshovestature.com/0ab4c316f69d951b71c986a63de02590/invoke.js"></script>
             </div>
 
             <!-- AD SPACE: 320x50 (Bottom) -->
             <div class="ad-unit">
                 <script type="text/javascript">
                     window.atOptions = {
-                        'key' : 'a015af9cdec1da588d595f0a55a54bb0',
-                        'format' : 'iframe',
-                        'height' : 50,
-                        'width' : 320,
-                        'params' : {}
+                        'key': 'a015af9cdec1da588d595f0a55a54bb0',
+                        'format': 'iframe',
+                        'height': 50,
+                        'width': 320,
+                        'params': {}
                     };
                 </script>
-                <script type="text/javascript" src="https://lightingshovestature.com/a015af9cdec1da588d595f0a55a54bb0/invoke.js"></script>
+                <script type="text/javascript"
+                    src="https://lightingshovestature.com/a015af9cdec1da588d595f0a55a54bb0/invoke.js"></script>
             </div>
 
         </div>
@@ -1278,21 +1363,23 @@
         <div class="ad-sidebar">
             <script type="text/javascript">
                 window.atOptions = {
-                    'key' : '3b841a07d1ac96f089e54f7766420bd2',
-                    'format' : 'iframe',
-                    'height' : 300,
-                    'width' : 160,
-                    'params' : {}
+                    'key': '3b841a07d1ac96f089e54f7766420bd2',
+                    'format': 'iframe',
+                    'height': 300,
+                    'width': 160,
+                    'params': {}
                 };
             </script>
-            <script type="text/javascript" src="https://lightingshovestature.com/3b841a07d1ac96f089e54f7766420bd2/invoke.js"></script>
+            <script type="text/javascript"
+                src="https://lightingshovestature.com/3b841a07d1ac96f089e54f7766420bd2/invoke.js"></script>
         </div>
 
     </div>
 
     <!-- Toast -->
     <div class="toast" id="toast">
-        <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
             <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
         <span>Tersalin! Siap bertanding 🎮</span>
@@ -1301,10 +1388,10 @@
     <script>
         // --- LOGIC INTERSTITIAL ADS ---
         // Fungsi untuk mengelola iklan fullscreen sekali per sesi
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const interstitial = document.getElementById('interstitial-overlay');
             const closeBtn = document.getElementById('close-interstitial');
-            
+
             // Cek apakah user sudah melihat iklan di sesi ini
             const adSeen = sessionStorage.getItem('adSeen_uranus_supreme');
 
@@ -1317,10 +1404,10 @@
             }
 
             // Fungsi menutup iklan
-            closeBtn.addEventListener('click', function() {
+            closeBtn.addEventListener('click', function () {
                 // Animasi keluar (opsional, bisa ditambahkan CSS fadeOut)
                 interstitial.style.display = 'none';
-                
+
                 // Simpan status di sessionStorage agar tidak muncul lagi sampai browser ditutup
                 sessionStorage.setItem('adSeen_uranus_supreme', 'true');
             });
@@ -1343,7 +1430,7 @@
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('light-mode');
             const isLight = document.body.classList.contains('light-mode');
-            
+
             // Toggle Icons
             if (isLight) {
                 iconSun.style.display = 'block';
@@ -1357,29 +1444,29 @@
         // Copy Functionality
         copyBtn.addEventListener('click', () => {
             const code = codeText.textContent;
-            
+
             const textArea = document.createElement('textarea');
             textArea.value = code;
             textArea.style.position = 'fixed';
             textArea.style.left = '-9999px';
             textArea.style.top = '0';
             document.body.appendChild(textArea);
-            
+
             textArea.focus();
             textArea.select();
-            
+
             try {
                 const successful = document.execCommand('copy');
-                
+
                 if (successful) {
                     copyBtn.classList.add('copied');
                     codeBox.classList.add('copied');
                     showToast();
-                    
+
                     if (navigator.vibrate) {
                         navigator.vibrate(50);
                     }
-                    
+
                     setTimeout(() => {
                         copyBtn.classList.remove('copied');
                         codeBox.classList.remove('copied');
@@ -1390,16 +1477,16 @@
             } catch (err) {
                 console.error('Oops, unable to copy', err);
             }
-            
+
             document.body.removeChild(textArea);
         });
 
         // Toast Display
         function showToast() {
             toast.classList.add('show');
-            
+
             if (toastTimeout) clearTimeout(toastTimeout);
-            
+
             toastTimeout = setTimeout(() => {
                 toast.classList.remove('show');
             }, 3000);
@@ -1428,10 +1515,10 @@
             lastTouchEnd = now;
         }, false);
     </script>
-    
+
     <!-- Script Watermark (Updated logic to follow body theme) -->
     <script>
-        (function() {
+        (function () {
             function initializeWatermark() {
                 const watermarkHTML = `
                 <div id="futuristic-watermark" title="Design by ©URANUSFAZRY">
@@ -1460,7 +1547,7 @@
                 const mainContentEl = document.getElementById('f-main-content');
                 const followContentEl = document.getElementById('f-follow-content');
                 const followMessageEl = document.getElementById('f-follow-message');
-                
+
                 let isAnimating = false;
                 let autoPlayInterval = null;
                 let currentSequence = 0;
@@ -1488,7 +1575,7 @@
                     reset() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.opacity = Math.random() * 0.5 + 0.2; this.size = Math.random() * 1.5 + 0.5; this.fadeSpeed = Math.random() * 0.015 + 0.005; }
                 }
                 const animateParticles = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); ctx.globalAlpha = 1.0; requestAnimationFrame(animateParticles); };
-                
+
                 const textScramble = (el) => {
                     const originalText = "©URANUSFAZRY";
                     const chars = '!<>*#{}[]'; let frame = 0; isAnimating = true;
@@ -1501,7 +1588,7 @@
                 const typewriter = (el, text) => {
                     let i = 0; el.innerHTML = ""; isAnimating = true;
                     const interval = setInterval(() => {
-                        if (i < text.length) { el.innerHTML += text.charAt(i); i++; } 
+                        if (i < text.length) { el.innerHTML += text.charAt(i); i++; }
                         else { clearInterval(interval); isAnimating = false; }
                     }, 50);
                 };
@@ -1524,8 +1611,8 @@
                                 typewriter(followMessageEl, "Follow uranusfazry YouTube");
                             }, 400);
                             break;
-                        case 'tiktok': 
-                            typewriter(followMessageEl, "Follow uranusfazry TikTok"); 
+                        case 'tiktok':
+                            typewriter(followMessageEl, "Follow uranusfazry TikTok");
                             break;
                         case 'reset':
                             isAnimating = true;
@@ -1546,7 +1633,7 @@
                 };
 
                 // No manual toggle listener on watermark anymore, it follows body class
-                
+
                 const init = () => {
                     resizeCanvas();
                     for (let i = 0; i < 40; i++) particles.push(new Particle());
@@ -1564,10 +1651,13 @@
             }
         })();
     </script>
-    
+
     <!-- ADS SCRIPTS: Popunder & Social Bar (Placed at end for performance) -->
-    <script type="text/javascript" src="https://lightingshovestature.com/05/ca/5f/05ca5ff4c11a0506cea9d58addc5c47f.js"></script>
-    <script type="text/javascript" src="https://lightingshovestature.com/3e/f2/c7/3ef2c7e7b257e039c2e929948a088ea5.js"></script>
+    <script type="text/javascript"
+        src="https://lightingshovestature.com/05/ca/5f/05ca5ff4c11a0506cea9d58addc5c47f.js"></script>
+    <script type="text/javascript"
+        src="https://lightingshovestature.com/3e/f2/c7/3ef2c7e7b257e039c2e929948a088ea5.js"></script>
 
 </body>
+
 </html>
